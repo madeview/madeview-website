@@ -274,7 +274,7 @@ function Nav() {
     <header className="sticky top-0 z-50 border-b border-[#22262B] bg-[#0A0C0E]/85 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <a href="#top" className="text-[#ECEDEE] hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5FAE8C] rounded-sm">
-          <Wordmark className="h-[18px] sm:h-5" />
+          <Wordmark className="h-6 sm:h-7" />
           <span className="sr-only">MADEVIEW</span>
         </a>
 
