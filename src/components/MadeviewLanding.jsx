@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import {
   CheckCircle2,
   Play,
@@ -47,6 +46,55 @@ function useReveal() {
   }, []);
 
   return [ref, visible];
+}
+
+// ---------------------------------------------------------------------------
+// Brand mark — vectors from the MADEVIEW CI kit, inlined so the page never
+// depends on external asset paths. stroke/fill use currentColor so a single
+// component can be tinted via the parent's text color class wherever it's
+// placed (nav, footer, etc.) instead of shipping separate white/black files.
+// ---------------------------------------------------------------------------
+
+function Symbol({ className = "h-6 w-6" }) {
+  return (
+    <svg viewBox="0 0 100 100" className={className} aria-hidden="true">
+      <polyline
+        points="19,76 19,24 46,58 85,24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function Wordmark({ className = "h-6" }) {
+  return (
+    <svg viewBox="0 0 560 140" className={className} aria-hidden="true">
+      <g transform="translate(28,22) scale(0.92)">
+        <path
+          d="M 19,76 V 24 L 46,58 85,24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="9.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <g fill="currentColor">
+        <path d="M 157.776,59.552 162.492,80 h 5.4 l 4.644,-20.448 V 80 h 5.4 V 53.756 H 169.8 l -4.608,20.88 -4.752,-20.88 h -8.064 V 80 h 5.4 z" />
+        <path d="m 204.88002,74.708 1.728,5.292 h 5.544 l -9.072,-26.244 h -5.976 L 187.78002,80 h 5.508 l 1.764,-5.292 z m -1.476,-4.5 h -6.84 l 3.42,-10.26 z" />
+        <path d="m 222.60802,80 h 10.26 c 3.996,0 6.516,-0.936 8.316,-3.06 2.052,-2.448 3.168,-5.976 3.168,-10.08 0,-4.068 -1.116,-7.596 -3.168,-10.08 -1.8,-2.124 -4.284,-3.024 -8.316,-3.024 h -10.26 z m 5.4,-4.5 V 58.256 h 4.86 c 4.068,0 6.084,2.844 6.084,8.64 0,5.76 -2.016,8.604 -6.084,8.604 z" />
+        <path d="m 261.03605,68.696 h 12.564 v -4.5 h -12.564 v -5.94 h 13.572 v -4.5 h -18.972 V 80 h 19.62 v -4.5 h -14.22 z" />
+        <path d="m 297.88001,80 9,-26.244 h -5.436 l -5.724,19.764 -5.832,-19.764 h -5.436 l 8.856,26.244 z" />
+        <path d="m 322.12402,53.756 h -5.4 V 80 h 5.4 z" />
+        <path d="m 339.70802,68.696 h 12.564 v -4.5 h -12.564 v -5.94 h 13.572 v -4.5 h -18.972 V 80 h 19.62 v -4.5 h -14.22 z" />
+        <path d="m 388.75601,80 7.272,-26.244 h -5.724 l -3.924,19.692 -4.248,-19.692 h -5.328 l -4.068,19.656 -4.068,-19.656 h -5.724 l 7.416,26.244 h 4.86 l 4.284,-20.484 4.392,20.484 z" />
+      </g>
+    </svg>
+  );
 }
 
 function Reveal({ children, className = "", delay = 0 }) {
@@ -225,8 +273,9 @@ function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#22262B] bg-[#0A0C0E]/85 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <a href="#top" className="font-mono text-sm tracking-tight text-[#ECEDEE]">
-          MADEVIEW
+        <a href="#top" className="text-[#ECEDEE] hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5FAE8C] rounded-sm">
+          <Wordmark className="h-[18px] sm:h-5" />
+          <span className="sr-only">MADEVIEW</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-7">
@@ -281,13 +330,6 @@ function Nav() {
 }
 
 function Hero() {
-  const shouldReduceMotion = useReducedMotion();
-  const titleLines = [
-    "Real orders.",
-    "Real production.",
-    "Verified process.",
-  ];
-
   return (
     <section
       id="top"
@@ -295,88 +337,44 @@ function Hero() {
     >
       <div className="grid lg:grid-cols-2 gap-14 lg:gap-12 items-center">
         <div>
-          <motion.div>
-            <h1 className="font-sans text-[2.375rem] leading-[1.08] min-[390px]:text-[2.75rem] sm:text-[3.5rem] sm:leading-[1.06] tracking-tight text-[#ECEDEE] font-semibold">
-              {titleLines.map((line, index) => (
-                <motion.span
-                  key={line}
-                  className="block"
-                  initial={shouldReduceMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={
-                    shouldReduceMotion
-                      ? { duration: 0 }
-                      : {
-                          duration: 0.6,
-                          delay: 0.5 + index * 0.55,
-                          ease: [0.22, 1, 0.36, 1],
-                        }
-                  }
-                >
-                  {line}
-                </motion.span>
-              ))}
+          <Reveal>
+            <h1 className="font-sans text-[2.75rem] leading-[1.08] sm:text-[3.5rem] sm:leading-[1.06] tracking-tight text-[#ECEDEE] font-semibold">
+              Real orders.
+              <br />
+              Real production.
+              <br />
+              Verified process.
             </h1>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={
-              shouldReduceMotion
-                ? { duration: 0 }
-                : { duration: 0.55, delay: 2.3, ease: "easeOut" }
-            }
-          >
+          <Reveal delay={100}>
             <p className="mt-7 text-base sm:text-lg text-[#8B9198] max-w-md leading-relaxed">
               Every order becomes a verified production review — matched to
               the exact footage of how it was made, and checked before it's
               ever shown to the next customer.
             </p>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={
-              shouldReduceMotion
-                ? { duration: 0 }
-                : { duration: 0.5, delay: 2.8, ease: "easeOut" }
-            }
-          >
-            <div className="mt-9 flex items-center gap-2 min-[390px]:gap-5">
+          <Reveal delay={200}>
+            <div className="mt-9 flex items-center gap-5">
               <a
                 href="#access"
-                className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md bg-[#ECEDEE] text-[#0A0C0E] text-sm font-medium px-3.5 min-[390px]:px-4 py-2.5 hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5FAE8C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0C0E]"
+                className="inline-flex items-center gap-1.5 rounded-md bg-[#ECEDEE] text-[#0A0C0E] text-sm font-medium px-4 py-2.5 hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5FAE8C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0C0E]"
               >
                 Request early access
                 <ArrowRight className="h-3.5 w-3.5" />
               </a>
               <a
                 href="#how-it-works"
-                className="shrink-0 whitespace-nowrap text-sm text-[#8B9198] hover:text-[#ECEDEE] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5FAE8C] rounded-sm"
+                className="text-sm text-[#8B9198] hover:text-[#ECEDEE] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5FAE8C] rounded-sm"
               >
                 See how it works
               </a>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
 
-        <motion.div
-          initial={
-            shouldReduceMotion ? false : { opacity: 0, y: 8 }
-          }
-          animate={{ opacity: 1, y: 0 }}
-          transition={
-            shouldReduceMotion
-              ? { duration: 0 }
-              : {
-                  duration: 0.6,
-                  delay: 3.2,
-                  ease: [0.22, 1, 0.36, 1],
-                }
-          }
-        >
+        <Reveal delay={160}>
           <div className="max-w-sm mx-auto lg:mx-0 lg:ml-auto">
             <ProductionReviewCard
               time="11:28"
@@ -385,49 +383,30 @@ function Hero() {
               elevated
             />
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );
 }
 
 function CoreFlow() {
-  const shouldReduceMotion = useReducedMotion();
   const steps = ["Order", "Match", "Make", "Verify", "Review"];
   return (
     <section className="border-t border-b border-[#22262B]">
       <div className="max-w-5xl mx-auto px-6 py-14 md:py-20">
-        <div>
+        <Reveal>
           <div className="flex flex-col md:flex-row items-center justify-between gap-5 md:gap-3">
             {steps.map((step, i) => {
               const isLast = i === steps.length - 1;
               return (
                 <React.Fragment key={step}>
-                  <motion.span
+                  <span
                     className={`font-mono uppercase tracking-tight text-2xl sm:text-3xl md:text-4xl font-semibold ${
                       isLast ? "text-[#5FAE8C]" : "text-[#ECEDEE]"
                     }`}
-                    initial={
-                      shouldReduceMotion
-                        ? false
-                        : { opacity: 0.45, scale: 0.98 }
-                    }
-                    whileInView={
-                      shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }
-                    }
-                    viewport={{ once: true, amount: 0.8 }}
-                    transition={
-                      shouldReduceMotion
-                        ? { duration: 0 }
-                        : {
-                            duration: 0.55,
-                            delay: i * 0.55,
-                            ease: [0.22, 1, 0.36, 1],
-                          }
-                    }
                   >
                     {step}
-                  </motion.span>
+                  </span>
                   {!isLast && (
                     <span className="text-[#3A3F45]">
                       <ArrowDown className="h-5 w-5 md:hidden" />
@@ -438,7 +417,7 @@ function CoreFlow() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
         <Reveal delay={120}>
           <p className="mt-8 text-center text-sm text-[#8B9198] max-w-md mx-auto">
             Every order follows this exact path. Nothing is published until
@@ -638,7 +617,7 @@ function Statistics() {
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {cards.map((c, i) => (
             <Reveal key={c.label} delay={i * 70}>
-              <div className="h-full rounded-xl border border-[#22262B] bg-[#121519] p-5">
+              <div className="rounded-xl border border-[#22262B] bg-[#121519] p-5">
                 <div className="font-mono text-2xl sm:text-3xl text-[#3A3F45]">
                   —
                 </div>
@@ -717,8 +696,11 @@ function Footer() {
   return (
     <footer className="border-t border-[#22262B]">
       <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <span className="font-mono text-xs text-[#565C63]">
-          MADEVIEW — production reviews, verified.
+        <span className="flex items-center gap-2 text-[#565C63]">
+          <Symbol className="h-3.5 w-3.5" />
+          <span className="font-mono text-xs">
+            MADEVIEW — production reviews, verified.
+          </span>
         </span>
         <span className="font-mono text-xs text-[#565C63]">
           © {new Date().getFullYear()} MADEVIEW
